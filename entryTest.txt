@@ -1,0 +1,15 @@
+Использовать:
+servlet api, JDBC
+daofactory
+connection pool
+сериализация с использованием Jackson библ.
+
+Дано:
+DB:Postgres
+user, password, IP
+scheme
+table
+
+Результат:
+в браузере ввести:https:// localhost:8080/project/getAllTrucks/2018
+вывести все грузовики где поле в табл model_year=2018
