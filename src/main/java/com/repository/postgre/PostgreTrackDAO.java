@@ -39,8 +39,9 @@ public class PostgreTrackDAO implements TrackDAO {
         String query = "UPDATE track SET model=?"  +
                 " WHERE model_year = ?";
         try(PreparedStatement statement = connection.prepareStatement(query)){
-            statement.setInt(1, year);
-            statement.setString(2,model);
+            statement.setString(1, model);
+            statement.setInt(2, year);
+            statement.executeUpdate();
         } catch (SQLException e) {
             e.printStackTrace();
         }

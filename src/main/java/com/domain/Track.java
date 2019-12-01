@@ -56,14 +56,14 @@ public class Track {
         this.model = model;
     }
 
-    /*@Override
+    @Override
     public String toString() {
         return "Track{" +
                 "id=" + id +
                 ", modelYear=" + modelYear +
                 ", model='" + model + '\'' +
                 '}';
-    }*/
+    }
 }
 
 /*

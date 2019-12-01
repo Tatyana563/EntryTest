@@ -19,8 +19,9 @@ import java.util.List;
 public class TrackServlet extends HttpServlet {
 
     public static final CRUDService<Track> SERVICE = new TrackService();
-//One to many
-   // http://localhost:9999/entrytest/track?model_year=2015
+
+    //One to many
+    // http://localhost:9999/entrytest/track?model_year=2015
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //https://www.baeldung.com/jackson-object-mapper-tutorial
@@ -62,26 +63,28 @@ public class TrackServlet extends HttpServlet {
     //}
     //One to many
     //int driverId = resultSet.getInt("driver_id");
-    //{
-    //	"modelYear": 2015,
-    //	"model": "Mercedes",
-    //  "driver": {
-    //    "id":1
-    //  }
-    //}
+   /* {
+    	"modelYear": 2015,
+    	"model": "Mercedes",
+      "driver": {
+        "id":1
+      }
+      }
+    }*/
 
     @Override
-            protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-                ObjectMapper mapper = new ObjectMapper();//improve
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        ObjectMapper mapper = new ObjectMapper();//improve
 
-                try (BufferedReader reader = req.getReader()) {
+        try (BufferedReader reader = req.getReader()) {
 
-                    Track track = mapper.readValue(reader, Track.class);
+            Track track = mapper.readValue(reader, Track.class);
 
-                    SERVICE.save(track);
+            SERVICE.save(track);
         }
     }
-//http://localhost:9999/entrytest/track?track_id=23, if id is available
+
+    //http://localhost:9999/entrytest/track?track_id=23, if id is available
   /*  @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int trackId = Integer.parseInt(req.getParameter("track_id"));
@@ -89,7 +92,7 @@ public class TrackServlet extends HttpServlet {
         SERVICE.deleteById(trackId);
     }*/
 //http://localhost:9999/entrytest/track?truck_modelYear=1990&truck_model=VAZ
-   //without json using url parameters, without jackson library
+    //without json using url parameters, without jackson library
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int year = Integer.parseInt(req.getParameter("truck_modelYear"));
@@ -102,8 +105,8 @@ public class TrackServlet extends HttpServlet {
 //	"modelYear": 2019,
 //	"model": "VAZ"
 //}
- //   @Override
-  //  protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    //   @Override
+    //  protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
        /* ObjectMapper mapper = new ObjectMapper(); //before improve
 
         try (BufferedReader reader = req.getReader()) {
@@ -113,11 +116,11 @@ public class TrackServlet extends HttpServlet {
             SERVICE.update(track);
         }*/
 
-   //     final Track track = getTrackFromRequest(req);
+    //     final Track track = getTrackFromRequest(req);
 
-   //     SERVICE.update(track);
+    //     SERVICE.update(track);
 
-  //  }
+    //  }
 
     private Track getTrackFromRequest(HttpServletRequest req) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -127,8 +130,9 @@ public class TrackServlet extends HttpServlet {
             return mapper.readValue(reader, Track.class);
         }
     }
-//doesnt work!!!
-  //  http://localhost:9999/entrytest/track?truck_modelYear=1990&truck_model=Fiat
+
+    //doesnt work!!!
+    //  http://localhost:9999/entrytest/track?truck_modelYear=2015&truck_model=Fiat
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int year = Integer.parseInt(req.getParameter("truck_modelYear"));

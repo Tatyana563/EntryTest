@@ -21,11 +21,14 @@ public class DriverServlet extends HttpServlet {
 
     //http://localhost:9999/entrytest/driver
 //    +
-//    {
-//        "name":"Mark",
-//            "age":45,
-//            "experience":"good"
-//    }
+/*
+    {
+        "name":"Mark",
+            "age":45,
+            "experience":"good"//enum
+    }
+
+    */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         ObjectMapper mapper = new ObjectMapper();
