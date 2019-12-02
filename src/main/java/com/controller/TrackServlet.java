@@ -18,7 +18,7 @@ import java.util.List;
 @WebServlet(urlPatterns = "/track")//localhost:9999/entrytest/track
 public class TrackServlet extends HttpServlet {
 
-    public static final CRUDService<Track> SERVICE = new TrackService();
+    public static final TrackService SERVICE = new TrackService();
 
     //One to many
     // http://localhost:9999/entrytest/track?model_year=2015
@@ -131,7 +131,7 @@ public class TrackServlet extends HttpServlet {
         }
     }
 
-    //doesnt work!!!
+
     //  http://localhost:9999/entrytest/track?truck_modelYear=2015&truck_model=Fiat
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {

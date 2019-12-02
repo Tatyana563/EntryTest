@@ -1,13 +1,13 @@
 package com.service;
 
 import com.domain.Driver;
+import com.domain.Experience;
 
 import java.util.List;
 
-public interface DriverService<T> {
-    void save(T t);
+public interface DriverService<T> extends CRUDService<T> {
 
-    List<Driver> findAllByExperience(String experience);
+    List<Driver> findAllByExperience(Experience experience);
 
-    void deleteById(int driverId);
+    void updateExperienceByName(String name, String exp);
 }

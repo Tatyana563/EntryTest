@@ -3,11 +3,11 @@ package com.service.impl;
 import com.domain.Track;
 import com.repository.TrackDAO;
 import com.repository.postgre.PostgreTrackDAO;
-import com.service.CRUDService;
+import com.service.TruckService;
 
 import java.util.List;
 
-public class TrackService implements CRUDService<Track> {
+public class TrackService implements TruckService<Track> {
 
     public static final TrackDAO TRACK_DAO = new PostgreTrackDAO();
 
@@ -40,4 +40,5 @@ public class TrackService implements CRUDService<Track> {
     public void updateModelByModelYear(int year, String model) {
         TRACK_DAO.updateModelByModelYear(year, model);
     }
+
 }

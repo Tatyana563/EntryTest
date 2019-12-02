@@ -1,6 +1,7 @@
 package com.repository.postgre;
 
 import com.domain.Driver;
+import com.domain.Experience;
 import com.domain.Track;
 
 import com.repository.TrackDAO;
@@ -116,9 +117,11 @@ public class PostgreTrackDAO implements TrackDAO {
                 int driverId = resultSet.getInt("driver_id");
                 int driverAge = resultSet.getInt("driver_age");
                 String driverName = resultSet.getString("driver_name");
-                String driverQualification = resultSet.getString("qualification");
+                String driverQualification =
+                        resultSet.getString("qualification");
+                final Experience experience = Experience.valueOf(driverQualification);
 
-                final Driver driver = new Driver(driverId, driverName, driverAge, driverQualification);
+                final Driver driver = new Driver(driverId, driverName, driverAge, experience);
 
                 final Track track = new Track(id, modelYear, model, driver);
 

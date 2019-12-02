@@ -12,10 +12,10 @@ public class Driver {
     private int id;
     private String name;
     private int age;
-    private String experience;
+    private Experience experience;
     private List<Track> tracks = new LinkedList<>();
 
-    public Driver(int id, String name, int age, String experience) {
+    public Driver(int id, String name, int age, Experience experience) {
         this.id = id;
         this.name = name;
         this.age = age;
@@ -53,19 +53,19 @@ public class Driver {
         this.age = age;
     }
 
-    public String getExperience() {
-        return experience;
-    }
-
-    public void setExperience(String experience) {
-        this.experience = experience;
-    }
-
     public List<Track> getTracks() {
         return tracks;
     }
 
     public void setTracks(List<Track> tracks) {
         this.tracks = tracks;
+    }
+
+    public Experience getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Experience experience) {
+        this.experience = experience;
     }
 }

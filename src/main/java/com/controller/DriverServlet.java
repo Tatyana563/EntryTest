@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.domain.Driver;
+import com.domain.Experience;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.DriverService;
 import com.service.impl.DriverServiceImpl;
@@ -41,9 +42,9 @@ public class DriverServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        String param = req.getParameter("qualification");
+        Experience experience = Experience.valueOf(req.getParameter("qualification")/*.toUpperCase*/);
 
-        List<Driver> drivers = DRIVER_SERVICE.findAllByExperience(param);
+        List<Driver> drivers = DRIVER_SERVICE.findAllByExperience(experience);
 
         ObjectMapper mapper = new ObjectMapper();
 
@@ -62,5 +63,14 @@ public class DriverServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("driverId"));
         DRIVER_SERVICE.deleteById(id);
     }
+
+    //http://localhost:9999/entrytest/driver?dName=Mark&dExperience=no
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String name = req.getParameter("dName");
+        String qualification = req.getParameter("dExperience");
+        DRIVER_SERVICE.updateExperienceByName(name, qualification);
+    }
+
 
 }
