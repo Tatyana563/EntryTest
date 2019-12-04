@@ -1,10 +1,14 @@
 package com.filter;
 
+
 import com.domain.Track;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import javax.servlet.*;
 import javax.servlet.annotation.WebFilter;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -12,8 +16,8 @@ import java.util.Objects;
 
 
 
-@WebFilter(urlPatterns = {"/track"})
-//@WebFilter(servletNames = {"CarServlet"})
+//@WebFilter(urlPatterns = {"/track"})//entrytest/entrytest/track
+@WebFilter(servletNames = {"CarServlet"})
 public class TruckFilter implements Filter {
 
     public static final int MODEL_YEAR = 1990;
@@ -26,20 +30,28 @@ public class TruckFilter implements Filter {
 
         if (Objects.equals(servletRequest.getContentType(), "application/json")) {
             ObjectMapper mapper = new ObjectMapper();//improve
-            try (BufferedReader reader = servletRequest.getReader()) {
+            BufferedReader reader = servletRequest.getReader();
 
-                Track track = mapper.readValue(reader, Track.class);
+            Track track = mapper.readValue(reader, Track.class);
 
-                if (track.getModelYear() > MODEL_YEAR) {
+            HttpSession session = ((HttpServletRequest) servletRequest).getSession(true );
 
-                    filterChain.doFilter(servletRequest, servletResponse);
-                } else {
-                    final PrintWriter writer = servletResponse.getWriter();
+            session.setAttribute("lorry", track);
 
-                    writer.println("Incorrect model year");
-                }
+            if (track.getModelYear() > MODEL_YEAR) {
 
+                filterChain.doFilter(servletRequest, servletResponse);
+            } else {
+
+                ((HttpServletResponse) servletResponse).setStatus(406);
+
+                final PrintWriter writer = servletResponse.getWriter();
+
+                writer.println("Incorrect model year");
             }
+// no json
+        } else {
+            filterChain.doFilter(servletRequest, servletResponse);
         }
     }
 

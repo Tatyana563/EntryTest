@@ -68,7 +68,7 @@ public class PostgreTrackDAO implements TrackDAO {
     }
 
     @Override
-    public void update(Track track) {
+    public void update(Track track) {//add update on driver_fk_id
         String insertQuery = "" +
                 "UPDATE track SET model_year = ?, model=?" +
                 " WHERE track.track_id = ?;";

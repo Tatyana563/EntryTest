@@ -7,15 +7,15 @@ import com.service.impl.TrackService;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Arrays;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/track")//localhost:9999/entrytest/track
+
+@WebServlet(urlPatterns = "/track", name = "CarServlet")//localhost:9999/entrytest/track
 public class TrackServlet extends HttpServlet {
 
     public static final TrackService SERVICE = new TrackService();
@@ -27,7 +27,7 @@ public class TrackServlet extends HttpServlet {
         //https://www.baeldung.com/jackson-object-mapper-tutorial
         //example of serializing a Java Object into JSON using the
 // writeValue method of ObjectMapper class:
-        String param = req.getParameter("model_year");
+        String param = req.getParameter("modelYear");
 
         int modelYear = Integer.parseInt(param);
 
@@ -64,7 +64,7 @@ public class TrackServlet extends HttpServlet {
     //One to many
     //int driverId = resultSet.getInt("driver_id");
    /* {
-    	"modelYear": 2015,
+        "modelYear": 2015,
     	"model": "Mercedes",
       "driver": {
         "id":1
@@ -74,14 +74,19 @@ public class TrackServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ObjectMapper mapper = new ObjectMapper();//improve
 
-        try (BufferedReader reader = req.getReader()) {
+        HttpSession session = req.getSession();
 
-            Track track = mapper.readValue(reader, Track.class);
+        Track track = (Track) session.getAttribute("lorry");
 
-            SERVICE.save(track);
-        }
+        SERVICE.save(track);
+
+        session.removeAttribute("lorry");
+
+        final Cookie cookie = new Cookie("Tanya", "Hello");
+
+        resp.addCookie(cookie);
+
     }
 
     //http://localhost:9999/entrytest/track?track_id=23, if id is available
@@ -100,27 +105,34 @@ public class TrackServlet extends HttpServlet {
 
         SERVICE.deleteByYearAndModel(year, model);
     }
-//{
+
+    //{
 //  "id":19,
 //	"modelYear": 2019,
 //	"model": "VAZ"
 //}
-    //   @Override
-    //  protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-       /* ObjectMapper mapper = new ObjectMapper(); //before improve
+    @Override
+    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
 
-        try (BufferedReader reader = req.getReader()) {
+        Track track = (Track) session.getAttribute("lorry");
 
-            Track track = mapper.readValue(reader, Track.class);
+        SERVICE.update(track);
 
-            SERVICE.update(track);
-        }*/
+        session.removeAttribute("lorry");
 
-    //     final Track track = getTrackFromRequest(req);
+        /*final String value = Arrays.stream(req.getCookies())
+                .filter(c -> c.getName().equals("Tanya"))
+                .findFirst()
+                .get().getValue();*/
 
-    //     SERVICE.update(track);
-
-    //  }
+        for (Cookie cookie : req.getCookies()) {
+            if (cookie.getName().equals("Tanya")) {
+                System.out.println(cookie.getValue());
+                cookie.setMaxAge(0);
+            }
+        }
+    }
 
     private Track getTrackFromRequest(HttpServletRequest req) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
@@ -133,12 +145,12 @@ public class TrackServlet extends HttpServlet {
 
 
     //  http://localhost:9999/entrytest/track?truck_modelYear=2015&truck_model=Fiat
-    @Override
+    /*@Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         int year = Integer.parseInt(req.getParameter("truck_modelYear"));
         String model = req.getParameter("truck_model");
         SERVICE.updateModelByModelYear(year, model);
-    }
+    }*/
 }
 //http://localhost:9999/entrytest/track?model_year=2019
 // talented api test

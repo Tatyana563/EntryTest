@@ -86,16 +86,16 @@ public class PosgreDriverDAO implements DriverDAO {
 
     @Override
     public void updateExperienceByName(String name, String exp) {
-    Connection connection = ConnectionFactory.getConnection();
-    String query = "UPDATE driver SET qualification=?" +
-            "WHERE driver_name=?";
-    try(PreparedStatement statement = connection.prepareStatement(query)){
-        statement.setString(1,exp);
-        statement.setString(2,name);
-        statement.executeUpdate();
-    } catch (SQLException e) {
-        e.printStackTrace();
-    }
+        Connection connection = ConnectionFactory.getConnection();
+        String query = "UPDATE driver SET qualification=?" +
+                "WHERE driver_name=?";
+        try (PreparedStatement statement = connection.prepareStatement(query)) {
+            statement.setString(1, exp);
+            statement.setString(2, name);
+            statement.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
     }
 
 }
