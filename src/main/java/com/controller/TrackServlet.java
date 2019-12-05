@@ -2,16 +2,13 @@ package com.controller;
 
 import com.domain.Track;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.service.CRUDService;
 import com.service.impl.TrackService;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Arrays;
 import java.util.List;
 
 
@@ -21,13 +18,13 @@ public class TrackServlet extends HttpServlet {
     public static final TrackService SERVICE = new TrackService();
 
     //One to many
-    // http://localhost:9999/entrytest/track?model_year=2015
+    // http://localhost:9999/entrytest/track?model_year=2018
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         //https://www.baeldung.com/jackson-object-mapper-tutorial
         //example of serializing a Java Object into JSON using the
 // writeValue method of ObjectMapper class:
-        String param = req.getParameter("modelYear");
+        String param = req.getParameter("model_year");
 
         int modelYear = Integer.parseInt(param);
 
@@ -105,12 +102,11 @@ public class TrackServlet extends HttpServlet {
 
         SERVICE.deleteByYearAndModel(year, model);
     }
-
-    //{
-//  "id":19,
-//	"modelYear": 2019,
-//	"model": "VAZ"
-//}
+/*    {
+  "id":19,
+	"modelYear": 2019,
+	"model": "VAZ"
+}*/
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();

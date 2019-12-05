@@ -2,6 +2,7 @@ package com.controller;
 
 import com.domain.Driver;
 import com.domain.Experience;
+import com.domain.Track;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.DriverService;
 import com.service.impl.DriverServiceImpl;
@@ -11,12 +12,13 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 
-@WebServlet(urlPatterns = "/driver")//localhost:9999/entrytest/driver?qualification=well-qualified
+@WebServlet(urlPatterns = "/driver", name="DriverServlet")//localhost:9999/entrytest/driver?qualification=well-qualified
 public class DriverServlet extends HttpServlet {
     public static final DriverService<Driver> DRIVER_SERVICE = new DriverServiceImpl();
 
@@ -24,21 +26,21 @@ public class DriverServlet extends HttpServlet {
 //    +
 /*
     {
-        "name":"Mark",
-            "age":45,
-            "experience":"good"//enum
+    "id":0,
+        "name":"Steeve",
+            "age":50,
+            "experience":"MEDIUM"
     }
 
     */
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        ObjectMapper mapper = new ObjectMapper();
+        HttpSession session = req.getSession();
 
-        try (BufferedReader reader = req.getReader()) {
-            Driver driver = mapper.readValue(reader, Driver.class);
+       Driver driver = (Driver) session.getAttribute("worker");
             DRIVER_SERVICE.save(driver);
         }
-    }
+
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -64,12 +66,17 @@ public class DriverServlet extends HttpServlet {
         DRIVER_SERVICE.deleteById(id);
     }
 
-    //http://localhost:9999/entrytest/driver?dName=Mark&dExperience=no
+    //http://localhost:9999/entrytest/driver?dName=Tom&dExperience=WELL_QUALIFIED
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        HttpSession session = req.getSession();
+
+        Driver driver = (Driver) session.getAttribute("worker");
+
         String name = req.getParameter("dName");
         String qualification = req.getParameter("dExperience");
         DRIVER_SERVICE.updateExperienceByName(name, qualification);
+        session.removeAttribute("worker");
     }
 
 

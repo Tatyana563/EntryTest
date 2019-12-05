@@ -49,7 +49,7 @@ public class TruckFilter implements Filter {
 
                 writer.println("Incorrect model year");
             }
-// no json
+// not json
         } else {
             filterChain.doFilter(servletRequest, servletResponse);
         }
