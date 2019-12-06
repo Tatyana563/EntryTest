@@ -37,4 +37,9 @@ public class MySQLTrackDAO implements TrackDAO {
     public void updateModelByModelYear(int year, String model) {
 
     }
+
+    @Override
+    public List<Track> findOnlyTrucksByYear(int year) {
+        return null;
+    }
 }

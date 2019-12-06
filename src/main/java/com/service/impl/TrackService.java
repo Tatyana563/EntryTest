@@ -41,4 +41,9 @@ public class TrackService implements TruckService<Track> {
         TRACK_DAO.updateModelByModelYear(year, model);
     }
 
+    @Override
+    public List<Track> findOnlyTrucksByYear(int year) {
+    return TRACK_DAO.findOnlyTrucksByYear(year);
+    }
+
 }

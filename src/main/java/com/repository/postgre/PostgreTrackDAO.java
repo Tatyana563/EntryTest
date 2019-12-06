@@ -4,6 +4,7 @@ import com.domain.Driver;
 import com.domain.Experience;
 import com.domain.Track;
 
+import com.dto.TruckDTO;
 import com.repository.TrackDAO;
 import com.repository.ConnectionFactory;
 
@@ -46,6 +47,28 @@ public class PostgreTrackDAO implements TrackDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Track> findOnlyTrucksByYear(int year) {
+        List<TruckDTO> trackList = new ArrayList<>();
+        try(PreparedStatement statement = ConnectionFactory.getConnection().prepareStatement(
+                "SELECT * FROM track WHERE model_year=?"
+        )){
+            statement.setInt(1,year);
+            ResultSet resultSet = statement.executeQuery();
+            while(resultSet.next()){
+                int id = resultSet.getInt("track_id");
+                int modelYear = resultSet.getInt("model_year");
+                String model = resultSet.getString("model");
+                final Track track = new Track(id, modelYear, model);
+                final TruckDTO trackDTO = new TruckDTO(track);
+                trackList.add(trackDTO);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

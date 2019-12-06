@@ -3,6 +3,7 @@ package com.repository.postgre;
 import com.domain.Driver;
 import com.domain.Experience;
 import com.domain.Track;
+import com.dto.DriverDTO;
 import com.repository.ConnectionFactory;
 
 import java.sql.Connection;
@@ -43,6 +44,36 @@ public class PosgreDriverDAO implements DriverDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<DriverDTO> findAllOnlyDriversByExperience(Experience experience) {
+        List<DriverDTO> driverList = new ArrayList<>();
+        try (PreparedStatement statement =
+                     ConnectionFactory.getConnection().prepareStatement(
+                "SELECT * FROM Driver AS d WHERE d.qualification = ?" )) {
+            statement.setString(1, experience.name());
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+
+                int driverId = resultSet.getInt("driver_id");
+                int driverAge = resultSet.getInt("driver_age");
+                String driverName = resultSet.getString("driver_name");
+                String driverQualification =
+                        resultSet.getString("qualification");
+
+                final Experience experience1 = Experience.valueOf(driverQualification);
+
+                final Driver driver = new Driver(driverId, driverName, driverAge, experience1);
+                final DriverDTO driverDto = new DriverDTO(driver);
+
+                driverList.add(driverDto);
+
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return driverList;
     }
 
     @Override
@@ -96,6 +127,38 @@ public class PosgreDriverDAO implements DriverDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public List<Driver> findAllByNumberOfTrucks(int number) {
+         List<Driver> driverList = new ArrayList<>();
+        try (PreparedStatement statement = ConnectionFactory.getConnection().prepareStatement(
+                "SELECT dr.* from driver dr" +
+                        "inner join (select count(t.track_id) as cnt,t.driver_fk_id "+
+                        "from track t "+
+                        "group by driver_fk_id "+
+                        "having count(t.track_id)>=?) as stat "+
+                        " on dr.driver_id=stat.driver_fk_id ")){
+            statement.setInt(1, number);
+            ResultSet resultSet = statement.executeQuery();
+            while (resultSet.next()) {
+                int driverId = resultSet.getInt("driver_id");
+                int driverAge = resultSet.getInt("driver_age");
+                String driverName = resultSet.getString("driver_name");
+                String driverQualification =
+                        resultSet.getString("qualification");
+
+                final Experience experience1 = Experience.valueOf(driverQualification);
+
+                final Driver driver = new Driver(driverId, driverName, driverAge, experience1);
+
+                driverList.add(driver);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return null;
     }
 
 }

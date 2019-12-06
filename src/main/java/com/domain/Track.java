@@ -21,6 +21,12 @@ public class Track {
         this.model = model;
     }
 
+    public Track(int id, int modelYear, String model) {
+        this.id = id;
+        this.modelYear = modelYear;
+        this.model = model;
+    }
+
     public Track() {
     }
 

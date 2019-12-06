@@ -14,4 +14,5 @@ public interface TrackDAO {
     List<Track> findAllByYear(int year);
     void deleteByYearAndModel(int year, String model);
     void updateModelByModelYear(int year, String model);
+    public List<Track> findOnlyTrucksByYear(int year);
 }
