@@ -132,8 +132,9 @@ public class PosgreDriverDAO implements DriverDAO {
     @Override
     public List<Driver> findAllByNumberOfTrucks(int number) {
          List<Driver> driverList = new ArrayList<>();
+
         try (PreparedStatement statement = ConnectionFactory.getConnection().prepareStatement(
-                "SELECT dr.* from driver dr" +
+                "SELECT dr.* from driver dr " +
                         "inner join (select count(t.track_id) as cnt,t.driver_fk_id "+
                         "from track t "+
                         "group by driver_fk_id "+
@@ -158,7 +159,7 @@ public class PosgreDriverDAO implements DriverDAO {
             e.printStackTrace();
         }
 
-        return null;
+        return driverList;
     }
 
 }
