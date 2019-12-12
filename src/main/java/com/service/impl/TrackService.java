@@ -1,6 +1,7 @@
 package com.service.impl;
 
 import com.domain.Track;
+import com.dto.TruckDTO;
 import com.repository.TrackDAO;
 import com.repository.postgre.PostgreTrackDAO;
 import com.service.TruckService;
@@ -42,8 +43,9 @@ public class TrackService implements TruckService<Track> {
     }
 
     @Override
-    public List<Track> findOnlyTrucksByYear(int year) {
-    return TRACK_DAO.findOnlyTrucksByYear(year);
+    public List<TruckDTO> findOnlyTrucksByYear(int year) {
+        return TRACK_DAO.findOnlyTrucksByYear(year);
     }
+
 
 }

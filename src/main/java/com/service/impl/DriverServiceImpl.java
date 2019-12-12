@@ -18,6 +18,11 @@ public static final DriverDAO DRIVER_DAO = new PosgreDriverDAO();
     }
 
     @Override
+    public void update(Driver driver) {
+
+    }
+
+    @Override
     public List<Driver> findAllByExperience(Experience experience) {
         return DRIVER_DAO.findAllByExperience(experience);
     }
@@ -33,6 +38,11 @@ public static final DriverDAO DRIVER_DAO = new PosgreDriverDAO();
     }
 
     @Override
+    public void updateQualificationByWorkload(int number, int modelYear) {
+      DRIVER_DAO.update(number,modelYear);
+    }
+
+    @Override
     public void deleteById(int driverId) {
         DRIVER_DAO.deleteById(driverId);
     }
@@ -42,8 +52,5 @@ public static final DriverDAO DRIVER_DAO = new PosgreDriverDAO();
         DRIVER_DAO.updateExperienceByName(name,exp);
     }
 
-    @Override
-    public void update(Driver driver) {
 
-    }
 }

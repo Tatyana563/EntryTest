@@ -15,4 +15,6 @@ public interface DriverService<T> extends CRUDService<T> {
     List<DriverDTO> findAllOnlyDriversByExperience(Experience experience);
 
      List<Driver> findAllByNumberOfTrucks(int number);
+
+void updateQualificationByWorkload(int number, int modelYear);
 }

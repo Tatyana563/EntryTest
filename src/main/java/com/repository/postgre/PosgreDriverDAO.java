@@ -5,6 +5,8 @@ import com.domain.Experience;
 import com.domain.Track;
 import com.dto.DriverDTO;
 import com.repository.ConnectionFactory;
+import netscape.security.UserTarget;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -29,7 +31,23 @@ public class PosgreDriverDAO implements DriverDAO {
     }
 
     @Override
-    public void update(Driver driver) {
+    public void update(int number, int modelYear) {
+String insertQuery =
+        "UPDATE  driver " +
+                "SET qualification= 'WELL_QUALIFIED' " +
+                "WHERE ?<=( " +
+                "SELECT COUNT(driver_fk_id) FROM track " +
+                "WHERE driver.driver_id = track.driver_fk_id " +
+                "AND model_year>?) ";
+try(PreparedStatement statement =
+        ConnectionFactory.getConnection().prepareStatement(insertQuery)){
+    statement.setInt(1, number);
+    statement.setInt(2, modelYear);
+statement.executeUpdate();
+} catch (SQLException e) {
+    e.printStackTrace();
+}
+
 
     }
 
@@ -80,7 +98,7 @@ public class PosgreDriverDAO implements DriverDAO {
         List<Driver> driverList = new ArrayList<>();
         try (PreparedStatement statement = ConnectionFactory.getConnection().prepareStatement(
                 "SELECT * FROM track AS t " +
-                        "INNER JOIN Driver AS d " +
+                        "RIGHT JOIN Driver AS d " +
                         "ON t.driver_fk_id = d.driver_id " +
                         "WHERE d.qualification = ?"
         )) {
@@ -117,8 +135,7 @@ public class PosgreDriverDAO implements DriverDAO {
     @Override
     public void updateExperienceByName(String name, String exp) {
         Connection connection = ConnectionFactory.getConnection();
-        String query = "UPDATE driver SET qualification=?" +
-                "WHERE driver_name=?";
+        String query = "UPDATE driver SET qualification=? WHERE driver_name=?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, exp);
             statement.setString(2, name);

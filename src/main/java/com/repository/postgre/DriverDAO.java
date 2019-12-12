@@ -10,7 +10,7 @@ import java.util.List;
 public interface DriverDAO {
     void save(Driver driver);
 
-    void update(Driver driver);
+  void update(int number, int modelYear);
 
     void deleteById(int driverId);
 
@@ -18,7 +18,7 @@ public interface DriverDAO {
 
     void updateExperienceByName(String name, String exp);
 
-    public List<Driver> findAllByNumberOfTrucks(int number);
+   List<Driver> findAllByNumberOfTrucks(int number);
 
     List<DriverDTO> findAllOnlyDriversByExperience(Experience experience);
 

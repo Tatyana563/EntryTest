@@ -64,17 +64,22 @@ public class DriverServlet extends HttpServlet {
         int id = Integer.parseInt(req.getParameter("driverId"));
         DRIVER_SERVICE.deleteById(id);
     }
+/*
+    {
+        "name":"Frank",
 
-    //http://localhost:9999/entrytest/driver?dName=Peter&dExperience=LACK_OF_EXPERIENCE
+      "experience":"MEDIUM"
+    }
+    */
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
 
         Driver driver = (Driver) session.getAttribute("worker");
 
-        String name = req.getParameter("dName");
-        String qualification = req.getParameter("dExperience");
-        DRIVER_SERVICE.updateExperienceByName(name, qualification);
+        DRIVER_SERVICE.updateExperienceByName(driver.getName(),driver.getExperience().name());
+
+        resp.setHeader("Content-Type", "application/json");
         session.removeAttribute("worker");
     }
 }

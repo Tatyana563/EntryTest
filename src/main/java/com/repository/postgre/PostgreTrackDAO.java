@@ -50,7 +50,7 @@ public class PostgreTrackDAO implements TrackDAO {
     }
 
     @Override
-    public List<Track> findOnlyTrucksByYear(int year) {
+    public List<TruckDTO> findOnlyTrucksByYear(int year) {
         List<TruckDTO> trackList = new ArrayList<>();
         try(PreparedStatement statement = ConnectionFactory.getConnection().prepareStatement(
                 "SELECT * FROM track WHERE model_year=?"
@@ -68,7 +68,7 @@ public class PostgreTrackDAO implements TrackDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return null;
+        return trackList;
     }
 
     @Override

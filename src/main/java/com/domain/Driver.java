@@ -22,6 +22,11 @@ public class Driver {
         this.experience = experience;
     }
 
+    //TODO Only for test puprose
+    public Driver(int id) {
+        this.id = id;
+    }
+
     public Driver() {
     }
 

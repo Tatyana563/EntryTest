@@ -1,6 +1,7 @@
 package com.repository.mysql;
 
 import com.domain.Track;
+import com.dto.TruckDTO;
 import com.repository.TrackDAO;
 
 import java.util.List;
@@ -39,7 +40,9 @@ public class MySQLTrackDAO implements TrackDAO {
     }
 
     @Override
-    public List<Track> findOnlyTrucksByYear(int year) {
+    public List<TruckDTO> findOnlyTrucksByYear(int year) {
         return null;
     }
+
+
 }

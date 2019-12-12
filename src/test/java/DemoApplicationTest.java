@@ -16,13 +16,12 @@ public class DemoApplicationTest {
     public void testTruck() {
        // truckService.findAllByYear(2015);//+
       //  truckService.updateModelByModelYear(2013, "EDICOLA"); //+
-      //  truckService.findOnlyTrucksByYear(2018); //-
-      //  truckService.save(new Track(20,2018,"ROAD-KINGS",new Driver(6,"Frank",32,WELL_QUALIFIED)));//-
+        System.out.println(truckService.findOnlyTrucksByYear(2018));//-
+        //  truckService.save(new Track(20,2018,"ROAD-KINGS",new Driver(6,"Frank",32,WELL_QUALIFIED)));//-
+// add truck to the existing driver. driver with id 8 is already in the DB
+Driver driver = new Driver(8);
+ truckService.save(new Track(0,2018,"ROAD-KINGS", driver));//-
 
-//Driver driver = new Driver(8,"Frank",32,WELL_QUALIFIED); //-
-////SERVICE.save(driver);// -
-//truckService.save(new Track(21,2018,"ROAD-KINGS", driver));//-
-Track track = new Track(1,2019,"Fiat");
 //truckService.update(track);//+
 // truckService.deleteById(15);//+
 
@@ -34,6 +33,7 @@ Track track = new Track(1,2019,"Fiat");
      //   SERVICE.deleteById(9); //+
       //  SERVICE.updateExperienceByName("Frank", "LACK_OF_EXPERIENCE");//+
       //  System.out.println(SERVICE.findAllByNumberOfTrucks(3));//+
+        //SERVICE.updateQualificationByWorkload(3,2017);//+
     }
 
 }

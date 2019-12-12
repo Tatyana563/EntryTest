@@ -1,6 +1,7 @@
 package com.controller;
 
 import com.domain.Track;
+import com.dto.TruckDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.impl.TrackService;
 
@@ -22,7 +23,7 @@ public class TruckServletDTO extends HttpServlet {
 
         int modelYear = Integer.parseInt(param);
 
-        List<Track> tracks = SERVICE.findOnlyTrucksByYear(modelYear);
+        List<TruckDTO> tracks = SERVICE.findOnlyTrucksByYear(modelYear);
 
         ObjectMapper mapper = new ObjectMapper();
 
