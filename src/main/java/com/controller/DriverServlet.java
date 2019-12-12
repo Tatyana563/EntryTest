@@ -2,11 +2,11 @@ package com.controller;
 
 import com.domain.Driver;
 import com.domain.Experience;
+
 import com.domain.Track;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.service.DriverService;
 import com.service.impl.DriverServiceImpl;
-
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -23,14 +23,13 @@ public class DriverServlet extends HttpServlet {
     public static final DriverService<Driver> DRIVER_SERVICE = new DriverServiceImpl();
 
     //http://localhost:9999/entrytest/driver
-//    +
+
 /*
-    {
-    "id":0,
-        "name":"Steeve",
-            "age":50,
-            "experience":"MEDIUM"
-    }
+   {
+  "name":"Peter",
+  "age":33,
+  "experience":"LACK_OF_EXPERIENCE"
+}
 
     */
     @Override
@@ -41,7 +40,7 @@ public class DriverServlet extends HttpServlet {
             DRIVER_SERVICE.save(driver);
         }
 
-
+//http://localhost:9999/entrytest/driver?qualification=LACK_OF_EXPERIENCE
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         Experience experience = Experience.valueOf(req.getParameter("qualification")/*.toUpperCase*/);
@@ -66,7 +65,7 @@ public class DriverServlet extends HttpServlet {
         DRIVER_SERVICE.deleteById(id);
     }
 
-    //http://localhost:9999/entrytest/driver?dName=Tom&dExperience=WELL_QUALIFIED
+    //http://localhost:9999/entrytest/driver?dName=Peter&dExperience=LACK_OF_EXPERIENCE
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         HttpSession session = req.getSession();
@@ -78,6 +77,6 @@ public class DriverServlet extends HttpServlet {
         DRIVER_SERVICE.updateExperienceByName(name, qualification);
         session.removeAttribute("worker");
     }
-
-
 }
+
+

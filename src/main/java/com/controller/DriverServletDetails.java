@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
 // find drivers who drive more then n-number lorries
+//http://localhost:9999/entrytest/driver/details?number=3
 @WebServlet(urlPatterns = "/driver/details", name="DriverServlet2")
 public class DriverServletDetails extends HttpServlet {
     public static final DriverService<Driver> DRIVER_SERVICE = new DriverServiceImpl();

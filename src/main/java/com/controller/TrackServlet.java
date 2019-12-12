@@ -10,20 +10,18 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-
-
-@WebServlet(urlPatterns = "/track", name = "CarServlet")//localhost:9999/entrytest/track
+//http://tutorials.jenkov.com/java-servlets/web-xml.html
+//https://www.baeldung.com/jackson-object-mapper-tutorial
+@WebServlet(urlPatterns = "/track", name = "CarServlet")
 public class TrackServlet extends HttpServlet {
 
     public static final TrackService SERVICE = new TrackService();
 
-    //One to many
+
     // http://localhost:9999/entrytest/track?model_year=2018
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //https://www.baeldung.com/jackson-object-mapper-tutorial
-        //example of serializing a Java Object into JSON using the
-// writeValue method of ObjectMapper class:
+
         String param = req.getParameter("model_year");
 
         int modelYear = Integer.parseInt(param);
@@ -40,26 +38,8 @@ public class TrackServlet extends HttpServlet {
 
         writer.println(jsonString);//generate HTML page with the json
     }
-//Send params for creating Track object in url without jackson
-    /*@Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int modelYear = Integer.parseInt(req.getParameter("modelYear"));
-        String model = req.getParameter("model");
 
-        Track track = new Track(modelYear, model);
 
-        SERVICE.save(track);
-    }*/
-
-    //Send json for creating Track object
-    //The simple readValue API of the ObjectMapper is a good entry point.
-    // We can use it to parse or deserialize JSON content into a Java object.
-    //{
-    //"modelYear": 2019,
-    //	"model": "VAZ"
-    //}
-    //One to many
-    //int driverId = resultSet.getInt("driver_id");
    /* {
         "modelYear": 2015,
     	"model": "Mercedes",
@@ -68,8 +48,7 @@ public class TrackServlet extends HttpServlet {
       }
       }
     }*/
-
-    @Override
+   @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         HttpSession session = req.getSession();
@@ -86,13 +65,6 @@ public class TrackServlet extends HttpServlet {
 
     }
 
-    //http://localhost:9999/entrytest/track?track_id=23, if id is available
-  /*  @Override
-    protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int trackId = Integer.parseInt(req.getParameter("track_id"));
-
-        SERVICE.deleteById(trackId);
-    }*/
 //http://localhost:9999/entrytest/track?truck_modelYear=1990&truck_model=VAZ
     //without json using url parameters, without jackson library
     @Override
@@ -123,7 +95,7 @@ public class TrackServlet extends HttpServlet {
                 .get().getValue();*/
 
         for (Cookie cookie : req.getCookies()) {
-            if (cookie.getName().equals("Tanya")) {
+            if (cookie.getName().equals("1")) {
                 System.out.println(cookie.getValue());
                 cookie.setMaxAge(0);
             }
@@ -138,21 +110,4 @@ public class TrackServlet extends HttpServlet {
             return mapper.readValue(reader, Track.class);
         }
     }
-
-
-    //  http://localhost:9999/entrytest/track?truck_modelYear=2015&truck_model=Fiat
-    /*@Override
-    protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        int year = Integer.parseInt(req.getParameter("truck_modelYear"));
-        String model = req.getParameter("truck_model");
-        SERVICE.updateModelByModelYear(year, model);
-    }*/
 }
-//http://localhost:9999/entrytest/track?model_year=2019
-// talented api test
-//https://jsonlint.com/
-//http://tutorials.jenkov.com/java-servlets/web-xml.html
-//{
-//	"modelYear": 2011,
-//	"model": "VAZ"
-//}

@@ -68,4 +68,15 @@ public class Driver {
     public void setExperience(Experience experience) {
         this.experience = experience;
     }
+
+    @Override
+    public String toString() {
+        return "Driver{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", age=" + age +
+                ", experience=" + experience +
+                ", tracks=" + tracks +
+                '}';
+    }
 }
