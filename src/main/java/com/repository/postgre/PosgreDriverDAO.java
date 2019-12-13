@@ -135,7 +135,7 @@ statement.executeUpdate();
     @Override
     public void updateExperienceByName(String name, String exp) {
         Connection connection = ConnectionFactory.getConnection();
-        String query = "UPDATE driver SET qualification=? WHERE driver_name=?";
+        String query = "UPDATE driver SET qualification=CAST (? AS enum_qualification) WHERE driver_name=?";
         try (PreparedStatement statement = connection.prepareStatement(query)) {
             statement.setString(1, exp);
             statement.setString(2, name);

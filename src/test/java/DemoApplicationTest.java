@@ -31,7 +31,7 @@ Driver driver = new Driver(8);
     public void testDriver() {
        //   System.out.println( SERVICE.findAllByExperience(WELL_QUALIFIED));// - no grouping
      //   SERVICE.deleteById(9); //+
-      //  SERVICE.updateExperienceByName("Frank", "LACK_OF_EXPERIENCE");//+
+        SERVICE.updateExperienceByName("Frank", "WELL_QUALIFIED");//+
       //  System.out.println(SERVICE.findAllByNumberOfTrucks(3));//+
         //SERVICE.updateQualificationByWorkload(3,2017);//+
     }
